@@ -3,6 +3,7 @@
 # %%
 import csv
 from faker import Faker
+import datetime
 
 # Function to generate fake data
 def generate_fake_data(num_records=10):
@@ -46,7 +47,9 @@ def write_to_csv(data, filename, fieldnames):
 
 # Define field names outside the function if they are constant
 field_name = ['Id', 'name', 'phone_number', 'email', 'address', 'country', 'job']
-csv_filename = 'fake_data_2.csv'
+# Adding datetime constraints to make sure the realtime is addressed and new data is pushed everytime
+date_value=datetime.datetime.strftime(datetime.datetime.now(),'%Y%m%d%H%M%S')
+csv_filename = 'customer_data_'+date_value+'.csv'
 
 # Generate data
 generated_data = generate_fake_data(num_records=10)
