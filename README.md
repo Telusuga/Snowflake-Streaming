@@ -44,7 +44,6 @@ All relevant SQL queries and DDL scripts can be found in the SQL Commands file.
 
 📁 Repository Structure
 
-.
 ├── Test_Data_Generator.py       # Python script to generate test data
 
 ├── docker-compose.yml           # Docker configuration for NiFi
