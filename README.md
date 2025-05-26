@@ -1,5 +1,61 @@
-# Snowflake-Streaming
-This repo holds the snowflake streaming application info
+❄️ Snowflake-Streaming
+This repository contains the configuration and components for a real-time data streaming application using Apache NiFi, AWS S3, and Snowflake.
+
+📌 Project Objective
+The goal of this project is to enable real-time data streaming into Snowflake, leveraging Apache NiFi for data movement and Snowflake's Snowpipe, Streams, and Tasks for ingestion and transformation.
+
+⚙️ Architecture Overview
+1. Data Generation
+Synthetic data is generated using the Python script Test_Data_Generator.py.
+
+2. Apache NiFi Deployment
+Apache NiFi is deployed on an EC2 (large instance) with 100 GB storage.
+
+NiFi runs via Docker, using the configuration in docker-compose.yml.
+
+EC2 setup and provisioning commands are documented in the EC2 Commands file.
+
+3. Data Ingestion Workflow
+NiFi pushes generated data to Amazon S3.
+
+Snowpipe in Snowflake continuously monitors the S3 bucket and loads incoming data into a raw table.
+
+4. Snowflake Processing
+Stream objects track metadata changes from the raw table.
+
+Tasks are used to automatically load and transform data into a changes table using the SCD Type 1 (SCD1) method.
+
+🧊 Snowflake Table Structure
+Table	Description
+raw_table	Stores the full extract of customer data ingested from Snowpipe
+changes_table	Contains the latest version of each record, applying SCD1 logic
+
+All relevant SQL queries and DDL scripts can be found in the SQL Commands file.
+
+📁 Repository Structure
+graphql
+Copy
+Edit
+.
+├── Test_Data_Generator.py       # Python script to generate test data
+├── docker-compose.yml           # Docker configuration for NiFi
+├── EC2_Commands.txt             # EC2 setup and deployment steps
+├── SQL_Commands.sql             # Snowflake SQL scripts for tables, streams, and tasks
+└── README.md                    # Project documentation
+🛠️ Tech Stack
+Python – Data generation
+
+Apache NiFi – Data flow orchestration
+
+AWS EC2 & S3 – Hosting and storage
+
+Snowflake – Data warehouse with real-time ingestion and transformation features
+
+🔮 Future Enhancements
+📊 Data Visualization: Integrate with BI tools like Tableau, Power BI, or Streamlit for interactive dashboards and reporting.
+
+🏷️ SCD Type 2 (SCD2): Add support for slowly changing dimensions type 2 to maintain historical versions of records for audit and trend analysis.
+
 
 
 ![image](https://github.com/user-attachments/assets/19b3bfd1-31f5-4bb9-b9eb-7679c8bfb71e)
