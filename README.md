@@ -46,9 +46,13 @@ All relevant SQL queries and DDL scripts can be found in the SQL Commands file.
 
 .
 ├── Test_Data_Generator.py       # Python script to generate test data
+
 ├── docker-compose.yml           # Docker configuration for NiFi
+
 ├── EC2_Commands.txt             # EC2 setup and deployment steps
+
 ├── SQL_Commands.sql             # Snowflake SQL scripts for tables, streams, and tasks
+
 └── README.md                    # Project documentation
 
 🛠️ Tech Stack
