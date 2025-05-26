@@ -1,0 +1,24 @@
+### AWS EC2 instance config
+- t2.xlarge instance
+- 32GB of storage recommended
+- Allow ports 4000 - 38888
+- Connect to ec2 via ssh
+
+- Commands to install Docker
+sudo yum update -y
+sudo yum install docker
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo gpasswd -a $USER docker
+newgrp docker
+sudo yum install python-pip
+sudo pip install docker-compose
+
+#After creating docker
+scp -r -i <pem-file_name>.pem docker-exp ec2-user@<machine_details>:/home/ec2-user/docker_exp
+machine_details can be found during ssh connect
+
+#Start Docker: 
+sudo systemctl start docker
+#Stop Docker:
+sudo systemctl stop docker
