@@ -37,6 +37,7 @@ Tasks are used to automatically load and transform data into a changes table usi
 Table	Description
 
 raw_table	Stores the full extract of customer data ingested from Snowpipe
+
 changes_table	Contains the latest version of each record, applying SCD1 logic
 
 All relevant SQL queries and DDL scripts can be found in the SQL Commands file.
