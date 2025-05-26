@@ -1,5 +1,4 @@
 ❄️ Snowflake-Streaming
-
 This repository contains the configuration and components for a real-time data streaming application using Apache NiFi, AWS S3, and Snowflake.
 
 📌 Project Objective
