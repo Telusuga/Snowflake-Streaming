@@ -2,7 +2,9 @@
 
 This repository contains the configuration and components for a real-time data streaming application using Apache NiFi, AWS S3, and Snowflake.
 
-Below HLD depicts the Application Overview
+🔍 Application Overview
+
+The diagram below illustrates the high-level design (HLD) of the data streaming pipeline:
 ![image](https://github.com/user-attachments/assets/38474baf-ca1f-4e97-b7f6-4ec8af3c1044)
 
 
