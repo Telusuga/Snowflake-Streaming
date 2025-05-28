@@ -89,3 +89,53 @@ warehouse='compute_wh'
 after stream_task
 as
 truncate table CUSTOMER_DATA.RAW.CUSTOMER_RAW
+
+
+
+
+
+#As part of SCD2 checking 
+#This Statement will close the current value 
+update customer_type_2 
+set valid_to_timestamp=current_timestamp(),
+is_active=0
+from 
+customer_raw s
+left join
+customer_type_2 f
+on
+s.id=f.id
+and f.is_active=1
+
+#This statement will insert the new value
+insert into customer_type_2
+(
+    ID ,
+	CUSTOMER_NAME ,
+	PHONE_NUMBER ,
+	EMAIL ,
+	ADDRESS ,
+	STATE ,
+	OCCUPATION ,
+    valid_from_date ,
+    valid_to_timestamp  ,
+    is_active 
+)
+select
+    s.ID ,
+	s.CUSTOMER_NAME ,
+	s.PHONE_NUMBER ,
+	s.EMAIL ,
+	s.ADDRESS ,
+	s.STATE ,
+	s.OCCUPATION ,
+    current_timestamp,
+    '2999-12-31 12:12:12',
+    1
+from
+customer_raw s
+left join 
+customer_type_2 f
+on
+s.id=f.id
+and f.is_active=0
