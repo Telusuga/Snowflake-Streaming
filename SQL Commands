@@ -139,3 +139,13 @@ customer_type_2 f
 on
 s.id=f.id
 and f.is_active=0
+
+
+#Handling of deletes using an extra column(is_deleted/type_of_operation) to indicate the type of operation
+
+update customer_type_2
+set valid_to_timestamp=current_timestamp,
+is_active=0,
+is_deleted=1
+where id not in (select id from customer_raw)
+and is_active=1
