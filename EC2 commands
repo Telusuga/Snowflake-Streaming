@@ -22,3 +22,7 @@ machine_details can be found during ssh connect
 sudo systemctl start docker
 #Stop Docker:
 sudo systemctl stop docker
+
+
+List Docker containers running: docker ps
+CLI access in Docker container: docker exec -i -t nifi bash
