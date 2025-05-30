@@ -5,12 +5,13 @@ This repository contains the configuration and components for a real-time data s
 🔍 Application Overview
 
 The diagram below illustrates the high-level design (HLD) of the data streaming pipeline:
-![image](https://github.com/user-attachments/assets/38474baf-ca1f-4e97-b7f6-4ec8af3c1044)
+![image](https://github.com/user-attachments/assets/a262fb22-37f5-4576-8392-59c4c3d62415)
 
 
-📌 Project Objective
 
-The goal of this project is to enable real-time data streaming into Snowflake, leveraging Apache NiFi for data movement and Snowflake's Snowpipe, Streams, and Tasks for ingestion and transformation.
+🚀 Project Objective
+
+The goal of this project is to enable real-time data streaming into Snowflake, leveraging Apache NiFi for data movement and Snowflake’s Snowpipe, Streams, and Tasks for ingestion and transformation. An additional feature includes Amazon SNS alerts to monitor S3 bucket activity (e.g., detecting missing or delayed files).
 
 ⚙️ Architecture Overview
 
@@ -22,21 +23,25 @@ Synthetic data is generated using the Python script Test_Data_Generator.py.
    
 Apache NiFi is deployed on an EC2 (large instance) with 100 GB storage.
 
-NiFi runs via Docker, using the configuration in docker-compose.yml.
+Runs inside Docker using configuration in docker-compose.yml.
 
-EC2 setup and provisioning commands are documented in the EC2 Commands file.
+EC2 provisioning is automated using commands in the EC2_Commands.txt file.
 
 3. Data Ingestion Workflow
+   
+NiFi pushes the generated data to an Amazon S3 bucket (Raw/ folder). 
 
-NiFi pushes generated data to Amazon S3.
+The Raw files are moved to the Archive folder after 30 mins- 1hour of the object creation time.
 
-Snowpipe in Snowflake continuously monitors the S3 bucket and loads incoming data into a raw table.
+An SNS (Simple Notification Service) topic is configured to monitor S3 activity. If no new files are detected within a defined time threshold (e.g., 24 hours), an alert is triggered.
+
+Snowpipe continuously monitors the S3 bucket and loads the raw data into Snowflake.
 
 4. Snowflake Processing
    
 Stream objects track metadata changes from the raw table.
 
-Tasks are used to automatically load and transform data into a changes table using the SCD Type 1 (SCD1) method.
+Tasks are used to automatically load and transform data into a changes table using the SCD Type 1 (SCD1) method and SCD2 Type 2 method as well.
 
 🧊 Snowflake Table Structure
 
@@ -45,6 +50,8 @@ Table	Description
 raw_table	Stores the full extract of customer data ingested from Snowpipe
 
 changes_table	Contains the latest version of each record, applying SCD1 logic
+
+type-2_changes_table	Contains the current and latest version of each record, applying SCD2 logic
 
 All relevant SQL queries and DDL scripts can be found in the SQL Commands file.
 
@@ -58,6 +65,8 @@ All relevant SQL queries and DDL scripts can be found in the SQL Commands file.
 
 ├── SQL_Commands.sql             # Snowflake SQL scripts for tables, streams, and tasks
 
+├── lambda_error_handler.py      # Lamdba code for Alerting and movement of files into different folders
+
 └── README.md                    # Project documentation
 
 🛠️ Tech Stack
@@ -70,11 +79,11 @@ AWS EC2 & S3 – Hosting and storage
 
 Snowflake – Data warehouse with real-time ingestion and transformation features
 
-🔮 Future Enhancements
+AWS Lambda - To enable the alerting of the application and movement of files
 
-📊 Data Visualization: Integrate with BI tools like Tableau, Power BI, or Streamlit for interactive dashboards and reporting.
+Future enhancements
 
-🏷️ SCD Type 2 (SCD2): Add support for slowly changing dimensions type 2 to maintain historical versions of records for audit and trend analysis.
+Embedding CI/CD
 
 
 
